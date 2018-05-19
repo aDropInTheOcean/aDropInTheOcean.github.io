@@ -27,7 +27,8 @@
 <!-- markdown -->
 ###**2.16 关于python/numpy向量的说明(A note on python/numpy vector)**
 
-######**笔记1：**
+**笔记1：**
+
 ![](https://upload-images.jianshu.io/upload_images/11963149-d6568890ac17bab6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 ![](https://upload-images.jianshu.io/upload_images/11963149-2ed5252727a6d993.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
@@ -60,13 +61,87 @@ print(a.T)
 # a和a转置的乘积,就得到一个矩阵
 print(np.dot(a,a.T))
 ```
+
+注意一个微妙的区别，第一种情况的a只有一层方括号，第二种情况a有两层方括号。前者是秩为1的数组，后者是一个1×5矩阵。
+
+所以每次创建数组时，最好直接把它定义成列向量，创建一个5×1列向量（或者1×5行向量），a.shape就等于(5,1)（或者a.shape就等于(1,5)）。
+
+注意尽量不要使用(5, )这种秩为1的数组的数据结构。
+
+**笔记2：**
+
+多用assert来确保向量的形状。
+
+![](https://upload-images.jianshu.io/upload_images/11963149-729fb94eb4672437.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+python代码如下：
+```
+assert(a.shape == (5,1))
+```
+
+**笔记3：**
+
+当遇到上述的秩为1的数组时，可以用a=a.reshape把秩为1的数组转换成比如说一个5×1数组或1×5数组
+
+![](https://upload-images.jianshu.io/upload_images/11963149-d265e4f88a5c4c5f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+python代码如下：
+```
+a = a.reshape((5,1))
+print(a)
+```
+###**2.17 Jupyter/ipython notebooks快速指南(Quick tour of Jupyter/ipython notebooks)**
+
+Jupyter notebook可以帮助你快速地执行和验证你的代码。
+
+打开Jupyter notebook，灰色段是代码段。代码是一段一段执行的，按下快捷键shift+enter可以可行一段代码。如果内核出问题了，可以尝试重启内核。编写文本时，还支持markdown。
+
+###**2.18 logistic regression代价函数的解释(Explanation of logistic regression cost function)**
+
+#####**Cost function的由来：**
+
+预测输出 y hat 的表达式：
+
+![](https://upload-images.jianshu.io/upload_images/11963149-d934a50a2c02ac03.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+其中，
+
+![](https://upload-images.jianshu.io/upload_images/11963149-f7f973aa2251a085.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+y hat 可以看作预测输出为正类（+1）的概率：
+
+![](https://upload-images.jianshu.io/upload_images/11963149-d62e49db61fb8483.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+![](https://upload-images.jianshu.io/upload_images/11963149-2b42c90cea109f79.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+将两种情况整合到一个式子中，可得：
+
+![](https://upload-images.jianshu.io/upload_images/11963149-5799026b428c5d82.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+对上式进行log处理（这里是因为log函数是单调递增函数，不会改变原函数的单调性）：
+
+![](https://upload-images.jianshu.io/upload_images/11963149-a79e742684c4b46c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+概率P(y|x)越大越好，即判断正确的概率越大越好。这里对上式加上负号，则转化成了单个样本的损失函数Loss function，我们期望其值越小越好：
+
+![](https://upload-images.jianshu.io/upload_images/11963149-090161b4080ec65b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+对于m个训练样本来说，假设样本之间是独立同分布的，我们总是希望训练样本判断正确的概率越大越好，则有：
+
+![](https://upload-images.jianshu.io/upload_images/11963149-bef0a5c55a445b8c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+同样引入log函数，加负号，则可以得到在所有样本上的代价函数Cost function：
+
+![](https://upload-images.jianshu.io/upload_images/11963149-10d9a02092fb898b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+[参考链接](https://blog.csdn.net/koala_tree/article/details/78045596)
 <!-- markdown end -->
 </div>
 <div class="entry" id="main">
 <!-- content -->
 <h3 id="216pythonnumpyanoteonpythonnumpyvector"><strong>2.16 关于python/numpy向量的说明(A note on python/numpy vector)</strong></h3>
 
-<h6 id="1"><strong>笔记1：</strong></h6>
+<p><strong>笔记1：</strong></p>
 
 <p><img src="https://upload-images.jianshu.io/upload_images/11963149-d6568890ac17bab6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="" title=""></p>
 
@@ -100,6 +175,81 @@ print(a.T)
 # a和a转置的乘积,就得到一个矩阵
 print(np.dot(a,a.T))
 </code></pre>
+
+<p>注意一个微妙的区别，第一种情况的a只有一层方括号，第二种情况a有两层方括号。前者是秩为1的数组，后者是一个1×5矩阵。</p>
+
+<p>所以每次创建数组时，最好直接把它定义成列向量，创建一个5×1列向量（或者1×5行向量），a.shape就等于(5,1)（或者a.shape就等于(1,5)）。</p>
+
+<p>注意尽量不要使用(5, )这种秩为1的数组的数据结构。</p>
+
+<p><strong>笔记2：</strong></p>
+
+<p>多用assert来确保向量的形状。</p>
+
+<p><img src="https://upload-images.jianshu.io/upload_images/11963149-729fb94eb4672437.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="" title=""></p>
+
+<p>python代码如下：</p>
+
+<pre><code>assert(a.shape == (5,1))
+</code></pre>
+
+<p><strong>笔记3：</strong></p>
+
+<p>当遇到上述的秩为1的数组时，可以用a=a.reshape把秩为1的数组转换成比如说一个5×1数组或1×5数组</p>
+
+<p><img src="https://upload-images.jianshu.io/upload_images/11963149-d265e4f88a5c4c5f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="" title=""></p>
+
+<p>python代码如下：</p>
+
+<pre><code>a = a.reshape((5,1))
+print(a)
+</code></pre>
+
+<h3 id="217jupyteripythonnotebooksquicktourofjupyteripythonnotebooks"><strong>2.17 Jupyter/ipython notebooks快速指南(Quick tour of Jupyter/ipython notebooks)</strong></h3>
+
+<p>Jupyter notebook可以帮助你快速地执行和验证你的代码。</p>
+
+<p>打开Jupyter notebook，灰色段是代码段。代码是一段一段执行的，按下快捷键shift+enter可以可行一段代码。如果内核出问题了，可以尝试重启内核。编写文本时，还支持markdown。</p>
+
+<h3 id="218logisticregressionexplanationoflogisticregressioncostfunction"><strong>2.18 logistic regression代价函数的解释(Explanation of logistic regression cost function)</strong></h3>
+
+<h5 id="costfunction"><strong>Cost function的由来：</strong></h5>
+
+<p>预测输出 y hat 的表达式：</p>
+
+<p><img src="https://upload-images.jianshu.io/upload_images/11963149-d934a50a2c02ac03.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="" title=""></p>
+
+<p>其中，</p>
+
+<p><img src="https://upload-images.jianshu.io/upload_images/11963149-f7f973aa2251a085.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="" title=""></p>
+
+<p>y hat 可以看作预测输出为正类（+1）的概率：</p>
+
+<p><img src="https://upload-images.jianshu.io/upload_images/11963149-d62e49db61fb8483.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="" title=""></p>
+
+<p><img src="https://upload-images.jianshu.io/upload_images/11963149-2b42c90cea109f79.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="" title=""></p>
+
+<p>将两种情况整合到一个式子中，可得：</p>
+
+<p><img src="https://upload-images.jianshu.io/upload_images/11963149-5799026b428c5d82.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="" title=""></p>
+
+<p>对上式进行log处理（这里是因为log函数是单调递增函数，不会改变原函数的单调性）：</p>
+
+<p><img src="https://upload-images.jianshu.io/upload_images/11963149-a79e742684c4b46c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="" title=""></p>
+
+<p>概率P(y|x)越大越好，即判断正确的概率越大越好。这里对上式加上负号，则转化成了单个样本的损失函数Loss function，我们期望其值越小越好：</p>
+
+<p><img src="https://upload-images.jianshu.io/upload_images/11963149-090161b4080ec65b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="" title=""></p>
+
+<p>对于m个训练样本来说，假设样本之间是独立同分布的，我们总是希望训练样本判断正确的概率越大越好，则有：</p>
+
+<p><img src="https://upload-images.jianshu.io/upload_images/11963149-bef0a5c55a445b8c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="" title=""></p>
+
+<p>同样引入log函数，加负号，则可以得到在所有样本上的代价函数Cost function：</p>
+
+<p><img src="https://upload-images.jianshu.io/upload_images/11963149-10d9a02092fb898b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="" title=""></p>
+
+<p><a href="https://blog.csdn.net/koala_tree/article/details/78045596">参考链接</a></p>
 <!-- content end -->
 </div>
 <br>
