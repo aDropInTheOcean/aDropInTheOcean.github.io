@@ -25,12 +25,81 @@
 	</div>
 <div id="md" style="display: none;">
 <!-- markdown -->
+###**2.16 关于python/numpy向量的说明(A note on python/numpy vector)**
 
+######**笔记1：**
+![](https://upload-images.jianshu.io/upload_images/11963149-d6568890ac17bab6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+![](https://upload-images.jianshu.io/upload_images/11963149-2ed5252727a6d993.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+python代码如下：
+```
+import numpy as np
+
+#生成了5个随机高斯变量,储存在数组a中
+a = np.random.randn(5)
+print(a)
+
+print(a.shape)
+# a是(5,)结构，这是Python中的一种数据结构
+# 是秩为1的数组，既不是行向量也不是列向量
+
+print(a.T)
+# 所以a和a转置看起来还是一样的
+
+print(np.dot(a,a.T))
+# a乘a转置，可能会得到一个矩阵，但实际上却得到一个数字
+
+# 如果定义时直接指明5×1矩阵的话，a就是一个列向量
+a = np.random.randn(5,1)
+print(a)
+
+# 此时a转置就是一个行向量
+print(a.T)
+
+# a和a转置的乘积,就得到一个矩阵
+print(np.dot(a,a.T))
+```
 <!-- markdown end -->
 </div>
 <div class="entry" id="main">
 <!-- content -->
+<h3 id="216pythonnumpyanoteonpythonnumpyvector"><strong>2.16 关于python/numpy向量的说明(A note on python/numpy vector)</strong></h3>
 
+<h6 id="1"><strong>笔记1：</strong></h6>
+
+<p><img src="https://upload-images.jianshu.io/upload_images/11963149-d6568890ac17bab6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="" title=""></p>
+
+<p><img src="https://upload-images.jianshu.io/upload_images/11963149-2ed5252727a6d993.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="" title=""></p>
+
+<p>python代码如下：</p>
+
+<pre><code>import numpy as np
+
+#生成了5个随机高斯变量,储存在数组a中
+a = np.random.randn(5)
+print(a)
+
+print(a.shape)
+# a是(5,)结构，这是Python中的一种数据结构
+# 是秩为1的数组，既不是行向量也不是列向量
+
+print(a.T)
+# 所以a和a转置看起来还是一样的
+
+print(np.dot(a,a.T))
+# a乘a转置，可能会得到一个矩阵，但实际上却得到一个数字
+
+# 如果定义时直接指明5×1矩阵的话，a就是一个列向量
+a = np.random.randn(5,1)
+print(a)
+
+# 此时a转置就是一个行向量
+print(a.T)
+
+# a和a转置的乘积,就得到一个矩阵
+print(np.dot(a,a.T))
+</code></pre>
 <!-- content end -->
 </div>
 <br>
